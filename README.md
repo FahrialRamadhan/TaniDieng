@@ -1,4 +1,11 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+<p align="center">
+  <a href="https://postimg.cc/WtWg3KHG" target="_blank">
+    <img src="https://i.postimg.cc/02xft1GB/download-3.png" 
+         alt="Logo Tani Dieng" 
+         width="200" 
+         height="200">
+  </a>
+</p>
 
 <p align="center">
 <a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
@@ -7,53 +14,98 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
 
-## About Laravel
+Kelompok Tani Dieng adalah komunitas petani yang berfokus pada pengelolaan dan pemasaran hasil pertanian khas dataran tinggi Dieng, Jawa Tengah.
+Melalui website TaniDieng, kami menghadirkan platform digital untuk mempermudah proses jual beli hasil tani secara langsung antara petani dan konsumen tanpa perantara.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+# Requirements
+1) PHP ≥ 8.2 (disarankan 8.2–8.3; 8.4 juga oke untuk Laravel 12)
+2) Composer ≥ 2.6
+3) Node.js ≥ 18 & npm ≥ 9
+4) MySQL/MariaDB (Laragon/XAMPP)
+5) Git
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+# Instalation
+### Clone & masuk folder
+```bash
+git clone https://github.com/FahrialRamadhan/TaniDieng.git.git
+cd <nama-folder-repo>
+```
+### Install dependency
+```bash
+composer install
+npm install
+```
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+### Buat file .env
+```bash
+cp .env.example .env
+php artisan key:generate
+```
+### Create Database
+Masuk ke MySQL
+```bash
+mysql -u root -p
+```
+Lalu buat database untuk proyek ini:
+```bash
+CREATE DATABASE tani_dieng;
+```
+Migrasi & (opsional) seeding
+```bash
+php artisan migrate
+```
 
-## Learning Laravel
+### Jalankan server & Vite
+Di terminal 1:
+```bash
+php artisan serve
+```
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+Di terminal 2:
+```bash
+npm run dev
+```
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
 
-## Laravel Sponsors
+# Struktur Proyek taniDieng
+Proyek ini dibangun menggunakan **Laravel Framework**, yang secara umum terbagi menjadi dua lingkup utama: **Backend (Server-Side)** dan **Frontend (Client-Side)**.  
+Berikut penjelasan struktur direktorinya:
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+---
 
-### Premium Partners
+## 🧩 Backend (Server-Side)
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+Bagian ini menangani **logika aplikasi**, **pengelolaan data**, serta **interaksi dengan database**.  
+Semua proses yang terjadi di sisi server berada pada lingkup ini.
 
-## Contributing
+| Folder / File | Deskripsi |
+|----------------|-----------|
+| **app/** | Berisi logika utama aplikasi seperti *Models*, *Controllers*, *Middleware*, dan *Providers*. |
+| **bootstrap/** | Menginisialisasi dan men-boot aplikasi Laravel. |
+| **config/** | Menyimpan konfigurasi aplikasi (database, mail, cache, dsb). |
+| **database/** | Berisi *migrations*, *seeders*, dan *factories* untuk pengelolaan struktur database. |
+| **routes/** | Menentukan rute aplikasi (`web.php`, `api.php`) untuk menghubungkan URL dengan controller. |
+| **storage/** | Tempat penyimpanan *logs*, *cache*, file sementara, dan *uploads*. |
+| **tests/** | Berisi pengujian otomatis (unit & feature tests). |
+| **.env / .env.example** | Menyimpan konfigurasi environment seperti koneksi database, API key, dsb. |
+| **artisan** | Command Line Interface Laravel untuk menjalankan perintah (migrate, serve, cache, dsb). |
+| **composer.json / composer.lock** | Mengatur dependensi PHP yang digunakan pada backend. |
+| **phpunit.xml** | Konfigurasi untuk testing otomatis menggunakan PHPUnit. |
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+---
 
-## Code of Conduct
+## 🎨 Frontend (Client-Side)
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+Bagian ini berhubungan dengan **tampilan antarmuka pengguna (UI)** dan file statis yang diakses browser.
 
-## Security Vulnerabilities
+| Folder / File | Deskripsi |
+|----------------|-----------|
+| **resources/** | Menyimpan file tampilan (*Blade templates*), CSS, JavaScript, serta aset mentah (Vue/React jika digunakan). |
+| **public/** | Folder publik yang diakses langsung oleh browser. Berisi `index.php`, hasil build JS/CSS, dan aset gambar. |
+| **vite.config.js** | Konfigurasi *Vite bundler* untuk mem-build file frontend (CSS, JS, dan framework frontend). |
+| **package.json / package-lock.json** | Mengatur dependensi JavaScript untuk kebutuhan tampilan (mis. Tailwind, Vue, React). |
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+> 📝 **Catatan:**  
+> Struktur ini mengikuti pola standar Laravel. Jika proyek menggunakan framework frontend tambahan (mis. Vue/React), maka sebagian logika tampilan juga akan dikelola melalui `resources/js/` dan dikompilasi oleh Vite.
 
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+---
