@@ -6,8 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="css/style.css">
+    <link rel="icon" type="image/png" sizes="48x48" href="img/favicon.png" />
     @vite('resources/css/app.css')
-    <title>Home</title>
+    <title>TaniDieng</title>
 </head>
 
 <body>
@@ -66,7 +67,7 @@
 
                     <!-- CTA -->
                     <div class="hidden md:flex">
-                        <a href="#"
+                        <a href="{{route('login')}}"
                             class="rounded-full border border-white/70 px-5 py-2 text-sm font-semibold text-white/90 hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-white/40">
                             Daftar/Masuk
                         </a>
