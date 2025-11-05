@@ -6,7 +6,6 @@
          height="200">
   </a>
 </p>
-
 <p align="center">
 <a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
@@ -14,8 +13,10 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
 
-Kelompok Tani Dieng adalah komunitas petani yang berfokus pada pengelolaan dan pemasaran hasil pertanian khas dataran tinggi Dieng, Jawa Tengah.
-Melalui website TaniDieng, kami menghadirkan platform digital untuk mempermudah proses jual beli hasil tani secara langsung antara petani dan konsumen tanpa perantara.
+<p align="center">
+  Website jual beli hasil pertanian <strong>Kelompok Tani Dieng</strong> berbasis Laravel Framework.  
+  <br><strong>Status:</strong> 🚧 <em>Masih dalam tahap pengembangan (On Progress)</em> — <strong>2025</strong>
+</p>
 
 # Requirements
 1) PHP ≥ 8.2 (disarankan 8.2–8.3; 8.4 juga oke untuk Laravel 12)
