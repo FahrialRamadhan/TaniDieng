@@ -13,7 +13,7 @@
 <body>
 
     <!-- Tailwind via CDN (hapus jika kamu sudah pakai build Tailwind sendiri) -->
-    <script src="https://cdn.tailwindcss.com"></script>
+    <!--  <script src="https://cdn.tailwindcss.com"></script>
 
     <!-- HERO + NAV ala mockup -->
     <div class="relative min-h-screen text-white antialiased">
