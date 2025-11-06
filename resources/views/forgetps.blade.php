@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <link rel="icon" type="image/png" sizes="48x48" href="img/favicon.png" />
-  <title>Login</title>
+  <link rel="icon" type="image/png" sizes="48x48" href="/img/favicon.png" />
+  <title>Lupa Password</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
     .glass-gradient {
@@ -22,12 +22,12 @@
 
     <!-- Kanan: gambar petani -->
     <div class="relative">
-      <img src="img/petani.png" alt="Petani di sawah"
+      <img src="/img/petani.png" alt="Petani di sawah"
            class="absolute inset-0 h-full w-full object-cover" />
       <div class="absolute inset-0 bg-gradient-to-l from-black/30 via-black/20 to-transparent"></div>
     </div>
 
-    <!-- Card (lebih lebar tapi tetap tipis) -->
+    <!-- Card -->
     <div class="pointer-events-none absolute inset-0 flex items-center justify-center p-6 md:p-10">
       <div
         class="pointer-events-auto w-full max-w-2xl rounded-[26px] border border-white/15 bg-white/10 glass-gradient backdrop-blur-xl shadow-[0_10px_40px_rgba(0,0,0,.25)] text-white overflow-hidden">
@@ -36,43 +36,53 @@
         <div class="relative p-8 md:p-10">
           <!-- Header -->
           <div class="flex items-center gap-3 mb-4 ml-[-20px]">
+            <a href="{{ route('login') }}" class="inline-flex items-center gap-3 group">
+            <div class="flex items-center gap-3">
             <img src="img/logo.png" alt="Logo" class="h-50 w-50 object-contain" />
+            </div>
+              <span class="sr-only">TaniDieng</span>
+            </a>
           </div>
 
-          <h1 class="text-2xl font-semibold">Login</h1>
+          <h1 class="text-2xl font-semibold">Lupa Password</h1>
           <p class="mt-1 text-sm text-white/80 leading-snug">
-            Halo Sobat Agripreneur,<br />
-            Silakan masuk atau mendaftar terlebih dahulu
+            Masukkan email yang terdaftar. Kami akan mengirimkan <em>tautan reset password</em> ke email kamu.
           </p>
+
+          <!-- Status sukses (email terkirim) -->
+          @if (session('status'))
+            <div class="mt-5 rounded-xl border border-emerald-400/30 bg-emerald-400/10 px-4 py-3 text-sm">
+              {{ session('status') }}
+            </div>
+          @endif
 
           <!-- Form -->
           <form action="#" method="POST" class="mt-6 space-y-5 max-w-2xl">
-            <div>
-              <label for="email" class="mb-1 block text-sm text-white/90">Alamat Email</label>
-              <input id="email" name="email" type="email" required autocomplete="email"
-                     placeholder="tanijawa@gmail.com"
-                     class="w-full rounded-xl border border-white/15 bg-white/10 px-5 py-2.5 text-sm text-white placeholder-white/60 outline-none focus:border-white/30 focus:bg-white/15" />
-            </div>
+            @csrf
 
             <div>
-              <label for="password" class="mb-1 block text-sm text-white/90">Password</label>
-              <input id="password" name="password" type="password" required autocomplete="current-password"
-                     placeholder="••••••••••••••••"
+              <div class="flex items-center justify-between mb-1">
+                <label for="email" class="text-sm text-white/90">Alamat Email</label>
+              </div>
+
+              <input id="email" name="email" type="email" required autocomplete="email"
+                     placeholder="tanijawa@gmail.com"
+                     value="{{ old('email') }}"
                      class="w-full rounded-xl border border-white/15 bg-white/10 px-5 py-2.5 text-sm text-white placeholder-white/60 outline-none focus:border-white/30 focus:bg-white/15" />
-              <a href="{{ route('forgetps') }}"
-                   class="block mt-2 text-sm text-right text-white/80 hover:text-white underline">
-                   Lupa Password?
-                </a>
+
+              @error('email')
+                <p class="mt-2 text-xs text-red-300">{{ $message }}</p>
+              @enderror
             </div>
 
             <button type="submit"
                     class="w-full rounded-xl bg-[#007115] px-5 py-3 text-sm font-medium text-white shadow-[0_6px_18px_rgba(0,113,21,.45)] transition hover:brightness-110 active:translate-y-[1px]">
-              Masuk
+              Kirim Tautan Reset
             </button>
 
             <p class="text-center text-sm text-white/90">
               Belum punya akun?
-              <a href="{{route('register')}}"
+              <a href="{{ route('register') }}"
                  class="font-medium text-white underline decoration-white/40 underline-offset-4 hover:decoration-white">
                  klik untuk buat akun
               </a>
@@ -81,7 +91,6 @@
         </div>
       </div>
     </div>
-
   </div>
 
   <style>
