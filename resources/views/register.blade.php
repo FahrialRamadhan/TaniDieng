@@ -41,11 +41,12 @@
 
           <h1 class="text-2xl font-semibold">Daftar</h1>
           <p class="mt-1 text-sm text-white/80 leading-snug">
-            Buat akun baru untuk mulai berbelanja & menjual produk tani.
+            Buat akun baru untuk mulai berbelanja.
           </p>
 
           <!-- Form Register -->
-          <form action="#" method="POST" class="mt-6 space-y-5 max-w-2xl">
+          <form action="{{ route('register.submit')}}" method="POST" class="mt-6 space-y-5 max-w-2xl">
+          @csrf
             <!-- Nama -->
             <div>
               <label for="name" class="mb-1 block text-sm text-white/90">Nama Lengkap</label>

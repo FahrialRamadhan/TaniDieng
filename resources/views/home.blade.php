@@ -67,11 +67,25 @@
 
                     <!-- CTA -->
                     <div class="hidden md:flex">
-                        <a href="{{route('login')}}"
-                            class="rounded-full border border-white/70 px-5 py-2 text-sm font-semibold text-white/90 hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-white/40">
-                            Daftar/Masuk
-                        </a>
+                        @if (Auth::check())
+                            <form action="{{ route('logout') }}" method="POST" class="flex items-center gap-3">
+                                @csrf
+                                <span class="rounded-full border border-white/70 px-5 py-2 text-sm font-semibold text-white/90 bg-transparent cursor-default">
+                                    {{ Auth::user()->name }}
+                                </span>
+                                <button type="submit"
+                                    class="rounded-full border border-white/70 px-5 py-2 text-sm font-semibold text-white/90 hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-white/40">
+                                    Logout
+                                </button>
+                            </form>
+                        @else
+                            <a href="{{ route('login') }}"
+                                class="rounded-full border border-white/70 px-5 py-2 text-sm font-semibold text-white/90 hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-white/40">
+                                Daftar/Masuk
+                            </a>
+                        @endif
                     </div>
+
 
                     <!-- Mobile -->
                     <details class="md:hidden relative group ml-2 z-50">
