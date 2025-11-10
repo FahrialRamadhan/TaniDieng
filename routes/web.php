@@ -31,3 +31,20 @@ Route::get('/forgetps', function () {
 
 //logout bray
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
+
+Route::get('/tentang', function () {
+    return view('tentang');
+})->name('tentang');
+
+Route::get('/bantuan', function () {
+    return view('bantuan');
+})->name('bantuan');
+
+Route::get('/product', function () {
+    return view('product');
+})->name('product');
+
+Route::get('/produsen', function () {
+    return view('produsen');
+})->name('produsen');

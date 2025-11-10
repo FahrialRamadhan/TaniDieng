@@ -45,7 +45,6 @@
             Silakan masuk atau mendaftar terlebih dahulu
           </p>
 
-
           @if ($errors->any())
           <div class="mb-4 flex items-center gap-3 rounded-xl border border-red-500/30 bg-red-500/10 px-4 py-3 text-sm text-red-200 backdrop-blur">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -64,7 +63,7 @@
         @endif
 
           <!-- Form -->
-          <form action="{{ route('login.submit') }}" method="POST" class="mt-6 space-y-5 max-w-2xl">
+          <form action="{{route('login')}}" method="POST" class="mt-6 space-y-5 max-w-2xl">
             @csrf
             <div>
               <label for="email" class="mb-1 block text-sm text-white/90">Alamat Email</label>
