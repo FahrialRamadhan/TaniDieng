@@ -6,6 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge" />
   <link rel="stylesheet" href="css/style.css" />
   <link rel="icon" type="image/png" sizes="48x48" href="img/favicon.png" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   @vite('resources/css/app.css')
   <title>TaniDieng</title>
   <style>
@@ -16,9 +17,6 @@
     .search-wrap.open{width:min(640px,55vw);opacity:1;pointer-events:auto}
     @media (max-width:640px){ .search-wrap.open{width:60vw} }
   </style>
-
-  <!-- Tailwind via CDN (hapus jika sudah build Tailwind sendiri) -->
-  <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="text-white antialiased">
 
@@ -27,7 +25,7 @@
     <!-- Bg image + overlay -->
     <div class="absolute inset-0">
       <img src="img/pemandangan.png" alt="Dieng background"
-           class="h-full w-full object-cover object-center blur-[5px] scale-105" />
+           class="h-full w-full object-cover object-center" />
       <div class="absolute inset-0 bg-black/40"></div>
     </div>
 
@@ -48,6 +46,7 @@
             <!-- panel glassy -->
             <div class="absolute left-0 mt-3 w-72 rounded-xl border border-white/25 bg-white/10 text-white/90 backdrop-blur-md shadow-lg">
               <div class="p-2">
+                
                 <a href="{{ route('tentang') }}" class="block rounded-lg px-4 py-2.5 text-[13px] font-medium hover:bg-white/10">Tentang</a>
                 <a href="{{ route('product') }}" class="block rounded-lg px-4 py-2.5 text-[13px] font-medium hover:bg-white/10">Belanja</a>
 
@@ -94,7 +93,7 @@
 
         <!-- LOGO -->
         <a href="/" class="flex items-center">
-          <img src="img/logo.png" alt="Logo" class="h-10 w-10 object-contain -mr-[10px] translate-y-[-1px]" />
+          <img src="img/favicon.png" alt="Logo" class="h-10 w-10 object-contain translate-y-[-1px]" />
           <span class="font-semibold leading-none">TaniDieng</span>
         </a>
 
@@ -104,7 +103,7 @@
              class="rounded-full border border-white/70 px-4 py-1.5 text-xs sm:text-sm font-semibold text-white/90 hover:bg-white/10">
             Daftar / Masuk
           </a>
-          <a href="#" aria-label="Keranjang" class="text-white/90 hover:text-white">
+          <a href="{{ route('login') }}" aria-label="Keranjang" class="text-white/90 hover:text-white">
             <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="1.5">
               <path d="M3 6h18l-1.5 9h-13L4 6z" stroke-linejoin="round"></path>
               <circle cx="9" cy="20" r="1"></circle>
@@ -159,22 +158,24 @@
 <!-- SECTION: PILIH PERAN -->
 <section id="pilih-peran" class="bg-[#0F5529] text-white py-24">
   <div class="max-w-7xl mx-auto px-6 md:px-8">
-    <div class="flex flex-col md:flex-row items-center justify-center gap-16 ">
+    <div class="flex flex-col md:flex-row items-center justify-center gap-16">
+      
       <!-- Card Pelanggan -->
       <a href="/pelanggan"
-         class="group flex w-[28rem] overflow-hidden rounded-xl border border-white/25 bg-white/10 hover:bg-white/20 transition-all duration-300 shadow-md hover:shadow-lg">
-        <img src="..." alt="Pelanggan"
-             class="h-36 w-36 md:h-40 md:w-40 object-cover" />
-        <div class="flex flex-col justify-center px-6">
+         class="group flex w-[22rem] md:w-[35rem] lg:w-[35rem] h-40 overflow-hidden rounded-xl border border-white/25 bg-white/10 hover:bg-white/20 transition-all duration-300 shadow-md hover:shadow-lg">
+        <img src="img/image 26.png" alt="Pelanggan"
+             class="w-1/2 h-full object-cover" />
+        <div class="flex items-center justify-center w-1/2">
           <span class="text-xl font-semibold group-hover:text-white">Pelanggan</span>
         </div>
       </a>
+
       <!-- Card Produsen -->
       <a href="/produsen"
-         class="group flex w-[28rem] overflow-hidden rounded-xl border border-white/25 bg-white/10 hover:bg-white/20 transition-all duration-300 shadow-md hover:shadow-lg">
-        <img src="..." alt="Produsen"
-             class="h-36 w-36 md:h-40 md:w-40 object-cover" />
-        <div class="flex flex-col justify-center px-6">
+         class="group flex w-[22rem] md:w-[35rem] lg:w-[35rem] h-40 overflow-hidden rounded-xl border border-white/25 bg-white/10 hover:bg-white/20 transition-all duration-300 shadow-md hover:shadow-lg">
+        <img src="img/image 27.png" alt="Produsen"
+             class="w-1/2 h-full object-cover" />
+        <div class="flex items-center justify-center w-1/2">
           <span class="text-xl font-semibold group-hover:text-white">Produsen</span>
         </div>
       </a>
@@ -182,6 +183,9 @@
     </div>
   </div>
 </section>
+
+
+
 
 
 <section id="kategori" class="bg-[#0F5529] text-white py-20">
@@ -192,88 +196,125 @@
       <ul class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-7 place-items-center gap-10 md:gap-12">
         <!-- item -->
         <li class="flex flex-col items-center">
-          <img src="img/kategori/sayur.png" alt="Sayur" class="h-20 w-auto mb-3" />
+          <img src="img/sayur.png" alt="Sayur" class="h-20 w-auto mb-3" />
           <span class="text-sm">Sayur</span>
         </li>
         <li class="flex flex-col items-center">
-          <img src="img/kategori/sayur.png" alt="Sayur" class="h-20 w-auto mb-3" />
-          <span class="text-sm">Sayur</span>
+          <img src="img/buah.png" alt="Sayur" class="h-20 w-auto mb-3" />
+          <span class="text-sm">Buah</span>
         </li>
         <li class="flex flex-col items-center">
-          <img src="img/kategori/sayur.png" alt="Sayur" class="h-20 w-auto mb-3" />
-          <span class="text-sm">Sayur</span>
+          <img src="img/kacang.png" alt="Sayur" class="h-20 w-auto mb-3" />
+          <span class="text-sm">Kacang</span>
         </li>
         <li class="flex flex-col items-center">
-          <img src="img/kategori/sayur.png" alt="Sayur" class="h-20 w-auto mb-3" />
-          <span class="text-sm">Sayur</span>
+          <img src="img/akar.png" alt="Sayur" class="h-20 w-auto mb-3" />
+          <span class="text-sm">Akar</span>
         </li>
         <li class="flex flex-col items-center">
-          <img src="img/kategori/sayur.png" alt="Sayur" class="h-20 w-auto mb-3" />
-          <span class="text-sm">Sayur</span>
+          <img src="img/umbi.png" alt="Sayur" class="h-20 w-auto mb-3" />
+          <span class="text-sm">Umbi</span>
         </li>
         <li class="flex flex-col items-center">
-          <img src="img/kategori/sayur.png" alt="Sayur" class="h-20 w-auto mb-3" />
-          <span class="text-sm">Sayur</span>
+          <img src="img/herbal.png" alt="Sayur" class="h-20 w-auto mb-3" />
+          <span class="text-sm">Herbal</span>
         </li>
         <li class="flex flex-col items-center">
-          <img src="img/kategori/sayur.png" alt="Sayur" class="h-20 w-auto mb-3" />
-          <span class="text-sm">Sayur</span>
+          <img src="img/sereal.png" alt="Sayur" class="h-20 w-auto mb-3" />
+          <span class="text-sm">Sereal</span>
         </li>
       </ul>
     </div>
   </div>
 </section>
 
-<section id="baru" class="bg-[#0F5529] text-white py-20">
-  <h2 class="text-3xl font-semibold mb-6 px-6 max-w-7xl mx-auto">
-    Baru-baru ditambahkan
-  </h2>
-
+<section id="baru" class="bg-[#0F5529] text-white py-16">
   <div class="max-w-7xl mx-auto px-6">
-    <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-      <!-- kartu produk -->
-      <article class="rounded-lg border border-white/30 bg-white/5 backdrop-blur-sm overflow-hidden">
-        <img src="img/produk/kopi.jpg" alt="Kopi" class="w-full h-48 object-cover" />
-        <div class="p-4 text-white">
-          <h3 class="font-semibold">Kopi (1kg)</h3>
-          <p class="text-sm text-white/80">
-            Produksi: <a href="#" class="underline">Jono Kagama</a>
-          </p>
-          <div class="mt-2 text-right text-sm font-semibold">Rp 50.000</div>
+    <h2 class="text-3xl font-semibold mb-8">Baru-baru ditambahkan</h2>
 
-          <div class="mt-4 space-y-2">
-            <a href="#" class="block rounded-md border border-white/60 bg-green-700/40 hover:bg-green-700/60 text-center text-sm py-2">Beli Sekarang</a>
-            <a href="#" class="block rounded-md border border-white/60 hover:bg-white/10 text-center text-sm py-2">Keranjang</a>
+    <!-- Grid dengan gap antar card -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 justify-items-center">
+      
+      <!-- Card 1 -->
+      <article class="w-[19rem] rounded-xl border border-white/20 bg-white/5 shadow-lg overflow-hidden flex flex-col hover:scale-[1.02] transition-transform">
+        <div class="px-5 pt-5">
+          <img src="img/gula.jpg" alt="Gula"
+               class="h-48 w-full object-cover rounded-lg ring-1 ring-white/10" />
+        </div>
+        <div class="p-6 flex flex-col flex-1">
+          <div class="flex items-baseline justify-between">
+            <h3 class="font-semibold text-lg">Gula <span class="text-white/70 text-sm">(1kg)</span></h3>
+            <div class="text-sm font-semibold">Rp 100.000</div>
+          </div>
+          <p class="text-sm text-white/80 mt-1">Produksi : 
+            <a href="#" class="underline hover:text-white">Jono Kagama</a>
+          </p>
+          <div class="mt-auto space-y-2 pt-4">
+            <a href="#" class="block w-full rounded-md border border-white/40 bg-[#2A7A3A]/60 hover:bg-[#2A7A3A] text-center text-sm py-2">Beli Sekarang</a>
+            <a href="#" class="block w-full rounded-md border border-white/40 hover:bg-white/10 text-center text-sm py-2">Keranjang</a>
           </div>
         </div>
       </article>
-      <article class="rounded-lg border border-white/30 bg-white/5 backdrop-blur-sm overflow-hidden">
-        <img src="img/produk/kopi.jpg" alt="Kopi" class="w-full h-48 object-cover" />
-        <div class="p-4 text-white">
-          <h3 class="font-semibold">Kopi (1kg)</h3>
-          <p class="text-sm text-white/80">
-            Produksi: <a href="#" class="underline">Jono Kagama</a>
-          </p>
-          <div class="mt-2 text-right text-sm font-semibold">Rp 50.000</div>
 
-          <div class="mt-4 space-y-2">
-            <a href="#" class="block rounded-md border border-white/60 bg-green-700/40 hover:bg-green-700/60 text-center text-sm py-2">Beli Sekarang</a>
-            <a href="#" class="block rounded-md border border-white/60 hover:bg-white/10 text-center text-sm py-2">Keranjang</a>
+      <!-- Card 2 -->
+      <article class="w-[19rem] rounded-xl border border-white/20 bg-white/5 shadow-lg overflow-hidden flex flex-col hover:scale-[1.02] transition-transform">
+        <div class="px-5 pt-5">
+          <img src="img/kentangfx.png" alt="Kentang"
+               class="h-48 w-full object-cover rounded-lg ring-1 ring-white/10" />
+        </div>
+        <div class="p-6 flex flex-col flex-1">
+          <div class="flex items-baseline justify-between">
+            <h3 class="font-semibold text-lg">Kentang <span class="text-white/70 text-sm">(1kg)</span></h3>
+            <div class="text-sm font-semibold">Rp 20.000</div>
+          </div>
+          <p class="text-sm text-white/80 mt-1">Produksi : 
+            <a href="#" class="underline hover:text-white">Jono Kagama</a>
+          </p>
+          <div class="mt-auto space-y-2 pt-4">
+            <a href="#" class="block w-full rounded-md border border-white/40 bg-[#2A7A3A]/60 hover:bg-[#2A7A3A] text-center text-sm py-2">Beli Sekarang</a>
+            <a href="#" class="block w-full rounded-md border border-white/40 hover:bg-white/10 text-center text-sm py-2">Keranjang</a>
           </div>
         </div>
       </article>
-      <article class="rounded-lg border border-white/30 bg-white/5 backdrop-blur-sm overflow-hidden">
-        <img src="img/produk/kopi.jpg" alt="Kopi" class="w-full h-48 object-cover" />
-        <div class="p-4 text-white">
-          <h3 class="font-semibold">Kopi (1kg)</h3>
-          <p class="text-sm text-white/80">
-            Produksi: <a href="#" class="underline">Jono Kagama</a>
-          </p>
-          <div class="mt-2 text-right text-sm font-semibold">Rp 50.000</div>
 
-          <div class="mt-4 space-y-2">
-            <a href="#" class="block rounded-md border border-white/60 bg-green-700/40 hover:bg-green-700/60 text-center text-sm py-2">Beli Sekarang</a>
-            <a href="#" class="block rounded-md border border-white/60 hover:bg-white/10 text-center text-sm py-2">Keranjang</a>
+      <!-- Card 3 -->
+      <article class="w-[19rem] rounded-xl border border-white/20 bg-white/5 shadow-lg overflow-hidden flex flex-col hover:scale-[1.02] transition-transform">
+        <div class="px-5 pt-5">
+          <img src="img/kopi.png" alt="Kopi"
+               class="h-48 w-full object-cover rounded-lg ring-1 ring-white/10" />
+        </div>
+        <div class="p-6 flex flex-col flex-1">
+          <div class="flex items-baseline justify-between">
+            <h3 class="font-semibold text-lg">Kopi <span class="text-white/70 text-sm">(1kg)</span></h3>
+            <div class="text-sm font-semibold">Rp 50.000</div>
+          </div>
+          <p class="text-sm text-white/80 mt-1">Produksi : 
+            <a href="#" class="underline hover:text-white">Jono Kagama</a>
+          </p>
+          <div class="mt-auto space-y-2 pt-4">
+            <a href="#" class="block w-full rounded-md border border-white/40 bg-[#2A7A3A]/60 hover:bg-[#2A7A3A] text-center text-sm py-2">Beli Sekarang</a>
+            <a href="#" class="block w-full rounded-md border border-white/40 hover:bg-white/10 text-center text-sm py-2">Keranjang</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- Card 4 -->
+      <article class="w-[19rem] rounded-xl border border-white/20 bg-white/5 shadow-lg overflow-hidden flex flex-col hover:scale-[1.02] transition-transform">
+        <div class="px-5 pt-5">
+          <img src="img/gula.jpg" alt="Gula"
+               class="h-48 w-full object-cover rounded-lg ring-1 ring-white/10" />
+        </div>
+        <div class="p-6 flex flex-col flex-1">
+          <div class="flex items-baseline justify-between">
+            <h3 class="font-semibold text-lg">Gula <span class="text-white/70 text-sm">(1kg)</span></h3>
+            <div class="text-sm font-semibold">Rp 100.000</div>
+          </div>
+          <p class="text-sm text-white/80 mt-1">Produksi : 
+            <a href="#" class="underline hover:text-white">Jono Kagama</a>
+          </p>
+          <div class="mt-auto space-y-2 pt-4">
+            <a href="#" class="block w-full rounded-md border border-white/40 bg-[#2A7A3A]/60 hover:bg-[#2A7A3A] text-center text-sm py-2">Beli Sekarang</a>
+            <a href="#" class="block w-full rounded-md border border-white/40 hover:bg-white/10 text-center text-sm py-2">Keranjang</a>
           </div>
         </div>
       </article>
@@ -282,14 +323,16 @@
 </section>
 
 <section id="petani" class="bg-[#0F5529] text-white py-20">
-   <h2 class="text-3xl font-semibold mb-6 px-6 max-w-7xl mx-auto">
-   Deretan Petani<br />
-          yang terbantu <span class="font-bold">TaniDieng</span>
+  <h2 class="text-3xl font-semibold mb-6 px-6 max-w-7xl mx-auto">
+    Deretan Petani<br />
+    yang terbantu <span class="font-bold">TaniDieng</span>
   </h2>
+
   <div class="max-w-7xl mx-auto px-8">
-    <!-- Card besar lebar penuh -->
-    <div class="rounded-lg border border-white/25 bg-white/5 backdrop-blur-sm grid md:grid-cols-2 divide-x divide-white/25 w-full h-[450px]">
-      
+    <!-- Container Card -->
+    <div
+      class="relative rounded-lg border border-white/25 bg-white/5 backdrop-blur-sm grid md:grid-cols-2 divide-x divide-white/25 w-full h-[450px] overflow-hidden"
+    >
       <!-- Kiri -->
       <div class="flex items-center justify-center text-center p-12">
         <h3 class="text-3xl font-semibold leading-snug">
@@ -298,17 +341,39 @@
         </h3>
       </div>
 
-      <!-- Kanan -->
-      <div class="flex flex-col items-center justify-center text-center p-12">
-        <img src="img/petani/jono.png" alt="Jono Kagano"
-             class="h-32 w-32 rounded-full object-cover mb-4" />
-        <p class="text-sm text-white/80 mb-4 max-w-md">
-          Aplikasi ini sangat membantu dalam penjualan komoditas.
-        </p>
-        <h4 class="font-semibold text-lg">Jono Kagano</h4>
-        <p class="text-xs text-white/70">Petani Kentang</p>
-      </div>
+      <!-- Kanan (Testimonial Section) -->
+      <div class="relative flex flex-col items-center justify-center text-center p-12">
+        <!-- Tombol kiri -->
+        <button
+          id="prevBtn"
+          class="absolute left-6 text-white hover:text-gray-300 text-3xl focus:outline-none"
+        >
+          &#10094;
+        </button>
 
+        <!-- Konten Testimonial -->
+        <div id="testimonialContainer" class="transition-all duration-300">
+          <img
+            id="petaniFoto"
+            src="img/petani/jono.png"
+            alt="Jono Kagano"
+            class="h-32 w-32 rounded-full object-cover mb-4 mx-auto"
+          />
+          <p id="petaniKata" class="text-sm text-white/80 mb-4 max-w-md mx-auto">
+            Aplikasi ini sangat membantu dalam penjualan komoditas.
+          </p>
+          <h4 id="petaniNama" class="font-semibold text-lg">Jono Kagano</h4>
+          <p id="petaniPekerjaan" class="text-xs text-white/70">Petani Kentang</p>
+        </div>
+
+        <!-- Tombol kanan -->
+        <button
+          id="nextBtn"
+          class="absolute right-6 text-white hover:text-gray-300 text-3xl focus:outline-none"
+        >
+          &#10095;
+        </button>
+      </div>
     </div>
   </div>
 </section>
@@ -399,52 +464,56 @@
   <div class="max-w-7xl mx-auto px-8">
     <h2 class="text-3xl font-semibold mb-8">Lokasi Distribusi</h2>
 
-    <!-- Kanvas peta -->
     <div class="relative rounded-lg overflow-hidden">
-      <!-- Ganti src sesuai asetmu (SVG/JPG/PNG peta Indonesia warna putih) -->
+      <!-- Peta -->
       <img src="img/indonesia.png"
            alt="Peta Indonesia"
            class="w-full h-auto select-none pointer-events-none" />
 
-      <!-- Garis penunjuk (leader line) -->
-      <span class="absolute left-[42%] top-[150%] h-90 w-px bg-white origin-top rotate-[80deg]"></span>
-
-      <!-- Label -->
-      <div class="absolute left-[36%] top-[93%] text-xl md:text-2xl font-semibold">
+      <!-- Label teks -->
+      <div class="absolute left-[38%] top-[94.1%] text-lg md:text-xl font-semibold">
         Dieng,<span class="font-normal">Indonesia</span>
       </div>
+
+      <!-- Garis penanda -->
+      <span class="absolute left-[34%] top-[84%] h-[80px] w-[3px] bg-white rotate-[-25deg] origin-top"></span>
     </div>
   </div>
 </section>
 
+
+
 <!-- Footer -->
 <footer class="bg-[#042F16] text-white py-12">
-  <div class="max-w-6xl mx-auto px-8 grid grid-cols-1 md:grid-cols-5 gap-8 md:gap-14">
-
+  <div class="max-w-7xl mx-auto px-8 grid grid-cols-1 md:grid-cols-5 gap-8 md:gap-14">
+    
     <!-- Kolom 1: Logo dan Hak Cipta -->
     <div class="md:col-span-2">
       <div class="flex items-center gap-2 mb-4">
-        <img src="img/logo.png" alt="Logo" class="h-8 w-8 object-contain">
+        <img src="img/favicon.png" alt="Logo" class="h-10 w-10 object-contain">
         <span class="text-lg font-semibold">TaniDieng</span>
       </div>
+
       <p class="text-xs text-white/80 mb-6 leading-relaxed">
         Copyright © 2025 TaniDieng.<br>All rights reserved.
       </p>
+
+      <!-- Ikon Sosial Media -->
       <div class="flex items-center gap-4">
-        <a href="#" class="p-2 bg-white/10 rounded-full hover:bg-white/20 transition">
-          <i class="fab fa-instagram"></i>
+        <a href="#" class="h-10 w-10 flex items-center justify-center rounded-full border border-white/30 text-white hover:bg-white/20 hover:scale-110 transition-all duration-300" aria-label="Instagram">
+          <i class="fab fa-instagram text-lg"></i>
         </a>
-        <a href="#" class="p-2 bg-white/10 rounded-full hover:bg-white/20 transition">
-          <i class="fab fa-dribbble"></i>
+        <a href="#" class="h-10 w-10 flex items-center justify-center rounded-full border border-white/30 text-white hover:bg-white/20 hover:scale-110 transition-all duration-300" aria-label="Dribbble">
+          <i class="fab fa-dribbble text-lg"></i>
         </a>
-        <a href="#" class="p-2 bg-white/10 rounded-full hover:bg-white/20 transition">
-          <i class="fab fa-twitter"></i>
+        <a href="#" class="h-10 w-10 flex items-center justify-center rounded-full border border-white/30 text-white hover:bg-white/20 hover:scale-110 transition-all duration-300" aria-label="X (Twitter)">
+          <i class="fab fa-x-twitter text-lg"></i>
         </a>
-        <a href="#" class="p-2 bg-white/10 rounded-full hover:bg-white/20 transition">
-          <i class="fab fa-youtube"></i>
+        <a href="#" class="h-10 w-10 flex items-center justify-center rounded-full border border-white/30 text-white hover:bg-white/20 hover:scale-110 transition-all duration-300" aria-label="YouTube">
+          <i class="fab fa-youtube text-lg"></i>
         </a>
       </div>
-    </div>
+    </div> <!-- ← PENTING: tutup kolom kiri -->
 
     <!-- Kolom 2 -->
     <div>
@@ -502,6 +571,50 @@
       const isInside = wrap.contains(e.target) || btn.contains(e.target);
       if (!isInside) closeSearch();
     });
+    // Data testimoni
+    const testimonials = [
+      {
+        foto: "img/petani1.jpg",
+        kata: "Aplikasi ini sangat membantu dalam penjualan komoditas.",
+        nama: "Jono Kagano",
+        pekerjaan: "Petani Kentang",
+      },
+      {
+        foto: "img/petani3.jpg",
+        kata: "Sekarang hasil panen saya bisa dijual langsung tanpa perantara.",
+        nama: "Sari Lestari",
+        pekerjaan: "Petani Sayur",
+      },
+      {
+        foto: "img/petani2.jpg",
+        kata: "TaniDieng membantu memperluas jangkauan pembeli kami.",
+        nama: "Budi Santoso",
+        pekerjaan: "Petani Wortel",
+      },
+    ];
+
+    let index = 0;
+    const foto = document.getElementById("petaniFoto");
+    const kata = document.getElementById("petaniKata");
+    const nama = document.getElementById("petaniNama");
+    const pekerjaan = document.getElementById("petaniPekerjaan");
+
+    document.getElementById("nextBtn").addEventListener("click", () => {
+      index = (index + 1) % testimonials.length;
+      updateTestimonial();
+    });
+
+    document.getElementById("prevBtn").addEventListener("click", () => {
+      index = (index - 1 + testimonials.length) % testimonials.length;
+      updateTestimonial();
+    });
+
+    function updateTestimonial() {
+      foto.src = testimonials[index].foto;
+      kata.textContent = testimonials[index].kata;
+      nama.textContent = testimonials[index].nama;
+      pekerjaan.textContent = testimonials[index].pekerjaan;
+    }
   </script>
 </body>
 </html>
