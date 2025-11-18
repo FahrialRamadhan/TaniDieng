@@ -52,3 +52,7 @@ Route::get('/produsen', function () {
 Route::get('/viewprodusen', function () {
     return view('viewprodusen');
 })->name('viewprodusen');
+
+Route::get('/viewproduk', function () {
+    return view('viewproduk');
+})->name('viewproduk');
