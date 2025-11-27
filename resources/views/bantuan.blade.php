@@ -7,7 +7,7 @@
   <link rel="stylesheet" href="css/style.css" />
   <link rel="icon" type="image/png" sizes="48x48" href="img/favicon.png" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-  @vite('resources/css/app.css')
+  @vite(['resources/css/app.css', 'resources/js/app.js'])
   <title>Bantuan</title>
   <style>
     details[open] > div { animation: dropdown-open 0.25s ease-out; }
@@ -31,8 +31,8 @@
   summary::-webkit-details-marker { display: none; } /* sembunyikan marker default */
   </style>
 </head>
-<body class="text-white antialiased">  
-@include('layouts.navbar')
+<body class="text-white antialiased ">  
+@include('layouts.navbar-guest')
 <!-- SECTION: FAQ / Butuh Bantuan -->
 <section id="bantuan" class="relative bg-[#0F5529] text-white min-h-screen pt-36 pb-20">
   <div class="max-w-4xl lg:max-w-5xl mx-auto px-6">
@@ -234,8 +234,8 @@
           <div class="grid grid-cols-12 items-start gap-2">
             <dt class="col-span-3 md:col-span-2 text-white/80">Email</dt>
             <dd class="col-span-9 md:col-span-10">
-              <a href="mailto:Tanidieng@gmail.com"
-                 class="font-medium hover:underline">Tanidieng@gmail.com</a>
+              <a href="mailto:tanidieng.project@gmail.com"
+                 class="font-medium hover:underline">tanidieng.project@gmail.com</a>
             </dd>
           </div>
 

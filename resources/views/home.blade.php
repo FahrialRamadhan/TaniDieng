@@ -7,7 +7,7 @@
   <link rel="stylesheet" href="css/style.css" />
   <link rel="icon" type="image/png" sizes="48x48" href="img/favicon.png" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-  @vite('resources/css/app.css')
+  @vite(['resources/css/app.css', 'resources/js/app.js'])
   <title>TaniDieng</title>
   <style>
     details[open] > div { animation: dropdown-open 0.25s ease-out; }
@@ -19,7 +19,7 @@
   </style>
 </head>
 <body class="text-white antialiased">
-  @include('layouts.navbar')
+  @include('layouts.navbar-guest')
     <div class="absolute inset-0">
       <img src="img/pemandangan.png" alt="Dieng background"
            class="h-full w-full object-cover object-center" />
@@ -397,66 +397,47 @@
 <!-- Footer -->
 @include('layouts.footer')
 
-  <script>
-    const btn = document.getElementById('searchBtn');
-    const wrap = document.getElementById('searchWrap');
-    const input = document.getElementById('searchInput');
+ <script>
+      document.addEventListener('DOMContentLoaded', function () {
 
-    function openSearch(){ wrap.classList.add('open'); setTimeout(()=>input.focus(),60); }
-    function closeSearch(){ wrap.classList.remove('open'); input.blur(); }
-    btn.addEventListener('click', () => {
-      wrap.classList.toggle('open');
-      if (wrap.classList.contains('open')) setTimeout(()=>input.focus(),60);
-    });
-    document.addEventListener('keydown', e => { if (e.key==='Escape') closeSearch(); });
-    document.addEventListener('click', e => {
-      const isInside = wrap.contains(e.target) || btn.contains(e.target);
-      if (!isInside) closeSearch();
-    });
-    // Data testimoni
-    const testimonials = [
-      {
-        foto: "img/petani1.jpg",
-        kata: "Aplikasi ini sangat membantu dalam penjualan komoditas.",
-        nama: "Jono Kagano",
-        pekerjaan: "Petani Kentang",
-      },
-      {
-        foto: "img/petani3.jpg",
-        kata: "Sekarang hasil panen saya bisa dijual langsung tanpa perantara.",
-        nama: "Sari Lestari",
-        pekerjaan: "Petani Sayur",
-      },
-      {
-        foto: "img/petani2.jpg",
-        kata: "TaniDieng membantu memperluas jangkauan pembeli kami.",
-        nama: "Budi Santoso",
-        pekerjaan: "Petani Wortel",
-      },
-    ];
+        // ====== TESTIMONI ======
+        const testimonials = [
+          { foto: "img/petani1.jpg", kata: "Aplikasi ini sangat membantu dalam penjualan komoditas.", nama: "Jono Kagano", pekerjaan: "Petani Kentang" },
+          { foto: "img/petani3.jpg", kata: "Sekarang hasil panen saya bisa dijual langsung tanpa perantara.", nama: "Sari Lestari", pekerjaan: "Petani Sayur" },
+          { foto: "img/petani2.jpg", kata: "TaniDieng membantu memperluas jangkauan pembeli kami.", nama: "Budi Santoso", pekerjaan: "Petani Wortel" },
+        ];
 
-    let index = 0;
-    const foto = document.getElementById("petaniFoto");
-    const kata = document.getElementById("petaniKata");
-    const nama = document.getElementById("petaniNama");
-    const pekerjaan = document.getElementById("petaniPekerjaan");
+        let index = 0;
+        const foto       = document.getElementById("petaniFoto");
+        const kata       = document.getElementById("petaniKata");
+        const nama       = document.getElementById("petaniNama");
+        const pekerjaan  = document.getElementById("petaniPekerjaan");
+        const nextBtn    = document.getElementById("nextBtn");
+        const prevBtn    = document.getElementById("prevBtn");
 
-    document.getElementById("nextBtn").addEventListener("click", () => {
-      index = (index + 1) % testimonials.length;
-      updateTestimonial();
-    });
+        function updateTestimonial() {
+          if (!foto || !kata || !nama || !pekerjaan) return;
+          foto.src              = testimonials[index].foto;
+          kata.textContent      = testimonials[index].kata;
+          nama.textContent      = testimonials[index].nama;
+          pekerjaan.textContent = testimonials[index].pekerjaan;
+        }
 
-    document.getElementById("prevBtn").addEventListener("click", () => {
-      index = (index - 1 + testimonials.length) % testimonials.length;
-      updateTestimonial();
-    });
+        if (nextBtn && prevBtn) {
+          nextBtn.addEventListener("click", () => {
+            index = (index + 1) % testimonials.length;
+            updateTestimonial();
+          });
 
-    function updateTestimonial() {
-      foto.src = testimonials[index].foto;
-      kata.textContent = testimonials[index].kata;
-      nama.textContent = testimonials[index].nama;
-      pekerjaan.textContent = testimonials[index].pekerjaan;
-    }
-  </script>
+          prevBtn.addEventListener("click", () => {
+            index = (index - 1 + testimonials.length) % testimonials.length;
+            updateTestimonial();
+          });
+        }
+
+        // tampilkan data awal
+        updateTestimonial();
+      });
+    </script>
 </body>
 </html>

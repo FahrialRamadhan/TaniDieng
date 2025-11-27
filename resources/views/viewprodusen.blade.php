@@ -7,7 +7,8 @@
   <link rel="stylesheet" href="css/style.css" />
   <link rel="icon" type="image/png" sizes="48x48" href="img/favicon.png" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-  @vite('resources/css/app.css')
+ @vite(['resources/css/app.css', 'resources/js/app.js'])
+
   <title>View</title>
   <style>
     details[open] > div { animation: dropdown-open .25s ease-out; }
@@ -20,7 +21,7 @@
 <body class="min-h-screen flex flex-col bg-[#0F5529] text-white">
 
 <!-- navbar -->
- @include('layouts.navbar')
+ @include('layouts.navbar-guest')
 
   <!-- spacer agar konten tidak tertutup header fixed -->
   <div class="h-14 lg:h-16"></div>

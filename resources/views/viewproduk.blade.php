@@ -7,7 +7,8 @@
   <link rel="stylesheet" href="css/style.css" />
   <link rel="icon" type="image/png" sizes="48x48" href="img/favicon.png" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-  @vite('resources/css/app.css')
+  @vite(['resources/css/app.css', 'resources/js/app.js'])
+
   <title>Tentang</title>
   <style>
     details[open] > div { animation: dropdown-open 0.25s ease-out; }
@@ -18,7 +19,7 @@
   </style>
 </head>
 <body>
-@include('layouts.navbar')
+@include('layouts.navbar-guest')
 
 <section class="bg-[#0F5529] min-h-screen px-6 pt-28 pb-16 flex justify-center pt-55">
   <div class="w-full max-w-5xl mx-auto">

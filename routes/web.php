@@ -1,37 +1,26 @@
 <?php
 
+use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\AuthController;
-
+use App\Http\Controllers\DashboardController;
 
 Route::get('/', function () {
     return view('home');
 })->name('home');
 
-//    Route::get('/login', function () {
-//      return view('login');
-//    })->name('login');
 
-// Route Baru Pake controller
-Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
-Route::post('/login', [AuthController::class, 'login'])->name('login.submit');
+Route::get('/home', [DashboardController::class, 'index'])
+    ->middleware(['auth', 'verified'])
+    ->name('home');
 
-//    Route::get('/register', function () {
-//      return view('register');
-//    })->name('register');
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    
+});
 
-// Route baru pakai controller
-Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('register');
-Route::post('/register', [AuthController::class, 'register'])->name('register.submit');
-
-
-Route::get('/forgetps', function () {
-    return view('forgetps');
-})->name('forgetps');
-
-//logout bray
-Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
-
+require __DIR__.'/auth.php';
 
 Route::get('/tentang', function () {
     return view('tentang');

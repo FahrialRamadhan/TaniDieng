@@ -7,7 +7,7 @@
   <link rel="stylesheet" href="css/style.css" />
   <link rel="icon" type="image/png" sizes="48x48" href="img/favicon.png" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-  @vite('resources/css/app.css')
+  @vite(['resources/css/app.css', 'resources/js/app.js'])
   <title>Product</title>
   <style>
     details[open] > div { animation: dropdown-open 0.25s ease-out; }
@@ -18,14 +18,13 @@
   </style>
 </head>
 <body>
-@include('layouts.navbar')
-
+@include('layouts.navbar-guest')
 <div>
     <img src="img/bennerproduct.png" alt="Gambar Produk" class="w-full h-64 object-cover mt-16"/>
 </div>
 
 <!-- SECTION: PRODUK + FILTER -->
-<section class="bg-[#0F5529] text-white py-10">
+<section class="bg-[#0F5529] text-white py-10 ">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
     <h2 class="text-3xl font-semibold mb-6">Produk</h2>
