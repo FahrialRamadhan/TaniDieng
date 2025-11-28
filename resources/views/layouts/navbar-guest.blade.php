@@ -1,8 +1,12 @@
+@php
+    // Ambil role user, kalau belum login = null
+    $role = Auth::check() ? Auth::user()->role : null;
+@endphp
+
 <nav x-data="{ open: false, mainMenu: false }"
      class="fixed inset-x-0 top-0 z-30 bg-[#0A5F2B] text-white shadow-sm border-white/10">
-    <div class="w-full px-4 sm:px-6 lg:px-10 pt-[2px] pb-[5.5px]">
 
-        {{-- tambahkan "relative" di sini --}}
+    <div class="w-full px-4 sm:px-6 lg:px-10 pt-[2px] pb-[5.5px]">
         <div class="relative flex items-center justify-between h-14">
 
             {{-- ============================= --}}
@@ -29,31 +33,55 @@
                             text-white/90 backdrop-blur-md shadow-lg z-50">
 
                     <div class="p-2 text-[13px] font-medium">
-                        <a href="{{ route('home') }}" class="block rounded-lg px-4 py-2.5 text-[13px] font-medium hover:bg-white/10">Beranda</a>
-                <a href="{{ route('tentang') }}" class="block rounded-lg px-4 py-2.5 text-[13px] font-medium hover:bg-white/10">Tentang</a>
-                <a href="{{ route('product') }}" class="block rounded-lg px-4 py-2.5 text-[13px] font-medium hover:bg-white/10">Belanja</a>
 
-                <!-- Submenu Produsen -->
-                <details class="group/sub relative">
-                  <summary class="list-none flex items-center justify-between rounded-lg px-4 py-2.5 text-[13px] font-medium hover:bg-white/10 cursor-pointer">
-                    <span>Produsen</span>
-                    <svg viewBox="0 0 24 24" class="h-4 w-4 transition-transform group-open/sub:rotate-180" fill="none" stroke="currentColor" stroke-width="1.5">
-                      <path d="M6 9l6 6 6-6" stroke-linecap="round" stroke-linejoin="round" />
-                    </svg>
-                  </summary>
-                  <div class="mx-3 mb-2 rounded-lg border border-white/15 bg-white/5 p-1">
-                    <a href="{{ route('produsen') }}" class="block rounded-md px-3 py-2 text-[13px] hover:bg-white/10">Daftar Produsen</a>
-                  </div>
-                </details>
+                        {{-- MENU UMUM --}}
+                        <a href="{{ $role === 'produsen' ? route('dashboard.produsen') : route('home') }}"
+                           class="block rounded-lg px-4 py-2.5 text-[13px] font-medium hover:bg-white/10">
+                            Beranda
+                        </a>
 
-                <a href="{{ route('bantuan') }}" class="block rounded-lg px-4 py-2.5 text-[13px] font-medium hover:bg-white/10">Bantuan</a>
+                        <a href="{{ route('tentang') }}"
+                           class="block rounded-lg px-4 py-2.5 text-[13px] font-medium hover:bg-white/10">
+                            Tentang
+                        </a>
+
+                        {{-- BELANJA: TIDAK TAMPIL JIKA ROLE = PRODUSEN --}}
+                        @if (is_null($role) || in_array($role, ['pelanggan', 'pelanggan_produsen']))
+                            <a href="{{ route('product') }}"
+                           class="block rounded-lg px-4 py-2.5 text-[13px] font-medium hover:bg-white/10">
+                            Belanja
+                        </a>
+                        @endif
+
+                        {{-- Submenu Produsen (link umum) --}}
+                        <details class="group/sub relative">
+                            <summary class="list-none flex items-center justify-between rounded-lg px-4 py-2.5 text-[13px] font-medium hover:bg-white/10 cursor-pointer">
+                                <span>Produsen</span>
+                                <svg viewBox="0 0 24 24" class="h-4 w-4 transition-transform group-open/sub:rotate-180" fill="none" stroke="currentColor" stroke-width="1.5">
+                                    <path d="M6 9l6 6 6-6" stroke-linecap="round" stroke-linejoin="round" />
+                                </svg>
+                            </summary>
+
+                            <div class="mx-3 mb-2 rounded-lg border border-white/15 bg:white/5 p-1">
+                                <a href="{{ route('produsen') }}"
+                                   class="block rounded-md px-3 py-2 text-[13px] hover:bg:white/10">
+                                    Daftar Produsen
+                                </a>
+                                {{-- nanti kalau sudah siap, baru tambah menu "Barang Saya" dll di sini --}}
+                            </div>
+                        </details>
+
+                        <a href="{{ route('bantuan') }}"
+                           class="block rounded-lg px-4 py-2.5 text-[13px] font-medium hover:bg-white/10">
+                            Bantuan
+                        </a>
                     </div>
 
                 </div>
 
                 {{-- ICON SEARCH --}}
                 <button type="button"
-                        class="inline-flex items-center text-white/90 hover:text-white"
+                        class="inline-flex items-center text-white/90 hover:text:white"
                         aria-label="Cari">
                     <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="1.5">
                         <circle cx="11" cy="11" r="7"></circle>
@@ -63,17 +91,18 @@
             </div>
 
             {{-- ============================= --}}
-            {{-- TENGAH: LOGO (SELALU DI TENGAH) --}}
+            {{-- TENGAH: LOGO --}}
             {{-- ============================= --}}
             <div class="absolute left-1/2 -translate-x-1/2 flex items-center justify-center pointer-events-none">
-                <a href="{{ url('/') }}" class="flex items-center gap-2 pointer-events-auto">
-                    <x-application-logo class="block h-7 w-auto fill-current text-white" />
-                    <span class="font-semibold tracking-wide">TaniDieng</span>
+                <a href="{{ $role === 'produsen' ? route('dashboard.produsen') : url('/') }}"
+                   class="flex items-center gap-[-1px] pointer-events-auto">
+                    <img src="{{ asset('img/favicon.png') }}" class="h-10 w-auto" alt="TaniDieng Logo">
+                    <span class="font-semibold tracking-wide text-white">TaniDieng</span>
                 </a>
             </div>
 
             {{-- ============================= --}}
-            {{-- KANAN: AUTO LOGIN / GUEST --}}
+            {{-- KANAN: LOGIN / USER / KERANJANG --}}
             {{-- ============================= --}}
             <div class="hidden sm:flex items-center gap-4">
 
@@ -81,7 +110,7 @@
                 @guest
                     <a href="{{ route('login') }}"
                        class="inline-flex items-center rounded-full border border-white/70 px-5 py-1.5
-                              text-sm font-medium hover:bg-white hover:text-[#0A5F2B] transition">
+                              text-sm font-medium hover:bg:white hover:text-[#0A5F2B] transition">
                         Daftar / Masuk
                     </a>
                 @endguest
@@ -92,14 +121,14 @@
                     <x-dropdown align="right" width="48">
                         <x-slot name="trigger">
                             <button class="inline-flex items-center gap-2 rounded-full px-4 py-1.5 
-                                           text-sm font-medium text-white/90 hover:bg-white/10 transition">
-                                
+                                           text-sm font-medium text-white/90 hover:bg:white/10 transition">
+
                                 {{-- FOTO USER --}}
                                 <img src="{{ Auth::user()->profile_photo
                                             ? asset('storage/' . Auth::user()->profile_photo)
                                             : asset('img/default-avatar.png') }}"
                                      class="h-7 w-7 rounded-full object-cover" />
-                                
+
                                 {{-- NAMA --}}
                                 <span class="hidden md:inline">{{ Auth::user()->name }}</span>
 
@@ -124,14 +153,16 @@
                         </x-slot>
                     </x-dropdown>
 
-                    {{-- ICON KERANJANG --}}
-                    <a href="#" aria-label="Keranjang" class="text-white/90 hover:text-white">
-                        <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="1.5">
-                            <path d="M3 6h18l-1.5 9h-13L4 6z" stroke-linejoin="round"></path>
-                            <circle cx="9" cy="20" r="1"></circle>
-                            <circle cx="17" cy="20" r="1"></circle>
-                        </svg>
-                    </a>
+                    {{-- ICON KERANJANG: DISSEMBUNYIKAN JIKA ROLE = PRODUSEN --}}
+                    @if (in_array($role, ['pelanggan', 'pelanggan_produsen']))
+                        <a href="{{ route('cart.index') }}" aria-label="Keranjang" class="text-white/90 hover:text:white">
+                            <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <path d="M3 6h18l-1.5 9h-13L4 6z" stroke-linejoin="round"></path>
+                                <circle cx="9" cy="20" r="1"></circle>
+                                <circle cx="17" cy="20" r="1"></circle>
+                            </svg>
+                        </a>
+                    @endif
                 @endauth
 
             </div>
@@ -141,7 +172,7 @@
             {{-- ============================= --}}
             <div class="flex items-center sm:hidden">
                 <button @click="open = ! open"
-                        class="inline-flex items-center justify-center p-2 rounded-md text-white/80 hover:bg-white/10 transition">
+                        class="inline-flex items-center justify-center p-2 rounded-md text-white/80 hover:bg:white/10 transition">
                     <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
                         <path :class="{'hidden': open, 'inline-flex': ! open }"
                               class="inline-flex"
@@ -166,31 +197,49 @@
     {{-- ============================= --}}
     {{-- MOBILE MENU --}}
     {{-- ============================= --}}
-    <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden bg-[#0A5F2B] border-t border-white/20">
+    <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden bg-[#0A5F2B] border-t border:white/20">
 
         <div class="pt-2 pb-3 space-y-1">
-            <x-responsive-nav-link :href="route('home')">Beranda </x-responsive-nav-link>
-            <x-responsive-nav-link :href="route('tentang')">Tentang</x-responsive-nav-link>
-            <x-responsive-nav-link :href="route('product')">Belanja</x-responsive-nav-link>
+            <x-responsive-nav-link :href="$role === 'produsen' ? route('dashboard.produsen') : route('home')">
+                Beranda
+            </x-responsive-nav-link>
+
+            <x-responsive-nav-link :href="route('tentang')">
+                Tentang
+            </x-responsive-nav-link>
+
+            {{-- BELANJA MOBILE: HANYA JIKA BUKAN PRODUSEN --}}
+            @if (is_null($role) || in_array($role, ['pelanggan', 'pelanggan_produsen']))
+                <x-responsive-nav-link :href="route('product')">
+                    Belanja
+                </x-responsive-nav-link>
+            @endif
+
+            {{-- Link umum produsen --}}
+            <x-responsive-nav-link :href="route('produsen')">
+                Daftar Produsen
+            </x-responsive-nav-link>
         </div>
 
         {{-- AREA PROFIL MOBILE --}}
         @auth
-            <div class="pt-4 pb-3 border-t border-white/20">
+            <div class="pt-4 pb-3 border-t border:white/20">
                 <div class="px-4 flex items-center gap-3">
                     <img src="{{ Auth::user()->profile_photo
                                 ? asset('storage/' . Auth::user()->profile_photo)
                                 : asset('img/default-avatar.png') }}"
-                         class="h-9 w-9 rounded-full object-cover border border-white/70" />
+                         class="h-9 w-9 rounded-full object-cover border border:white/70" />
 
                     <div>
-                        <div class="font-medium text-sm text-white">{{ Auth::user()->name }}</div>
-                        <div class="font-medium text-xs text-white/70">{{ Auth::user()->email }}</div>
+                        <div class="font-medium text-sm text:white">{{ Auth::user()->name }}</div>
+                        <div class="font-medium text-xs text:white/70">{{ Auth::user()->email }}</div>
                     </div>
                 </div>
 
                 <div class="mt-3 space-y-1 pb-3">
-                    <x-responsive-nav-link :href="route('profile.edit')">Profil</x-responsive-nav-link>
+                    <x-responsive-nav-link :href="route('profile.edit')">
+                        Profil
+                    </x-responsive-nav-link>
 
                     <form method="POST" action="{{ route('logout') }}">
                         @csrf
@@ -205,9 +254,9 @@
         @endauth
 
         @guest
-            <div class="p-3 border-t border-white/20">
+            <div class="p-3 border-t border:white/20">
                 <a href="{{ route('login') }}"
-                   class="block text-center rounded-lg bg-white text-[#0A5F2B] py-2 font-medium">
+                   class="block text-center rounded-lg bg:white text-[#0A5F2B] py-2 font-medium">
                     Daftar / Masuk
                 </a>
             </div>

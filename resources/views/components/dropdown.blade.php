@@ -1,35 +1,58 @@
-@props(['align' => 'right', 'width' => '48', 'contentClasses' => 'py-1 bg-white'])
+@props([
+    'align' => 'right',
+    'width' => '48',
+])
 
 @php
-$alignmentClasses = match ($align) {
-    'left' => 'ltr:origin-top-left rtl:origin-top-right start-0',
-    'top' => 'origin-top',
-    default => 'ltr:origin-top-right rtl:origin-top-left end-0',
-};
+    // Alignment: kiri / kanan / atas
+    switch ($align) {
+        case 'left':
+            $alignmentClasses = 'origin-top-left left-0';
+            break;
+        case 'top':
+            $alignmentClasses = 'origin-top';
+            break;
+        case 'right':
+        default:
+            $alignmentClasses = 'origin-top-right right-0';
+            break;
+    }
 
-$width = match ($width) {
-    '48' => 'w-48',
-    default => $width,
-};
+    // Lebar dropdown
+    switch ($width) {
+        case '48':
+            $widthClasses = 'w-48';
+            break;
+        default:
+            $widthClasses = $width;
+            break;
+    }
 @endphp
 
-<div class="relative" x-data="{ open: false }" @click.outside="open = false" @close.stop="open = false">
+<div x-data="{ open: false }" class="relative">
+    {{-- Trigger --}}
     <div @click="open = ! open">
         {{ $trigger }}
     </div>
 
+    {{-- Overlay kecil kalau mau nutup saat klik di luar (opsional) --}}
     <div x-show="open"
-            x-transition:enter="transition ease-out duration-200"
-            x-transition:enter-start="opacity-0 scale-95"
-            x-transition:enter-end="opacity-100 scale-100"
-            x-transition:leave="transition ease-in duration-75"
-            x-transition:leave-start="opacity-100 scale-100"
-            x-transition:leave-end="opacity-0 scale-95"
-            class="absolute z-50 mt-2 {{ $width }} rounded-md shadow-lg {{ $alignmentClasses }}"
-            style="display: none;"
-            @click="open = false">
-        <div class="rounded-md ring-1 ring-black ring-opacity-5 {{ $contentClasses }}">
-            {{ $content }}
-        </div>
+         x-transition.opacity
+         @click="open = false"
+         class="fixed inset-0 z-40"></div>
+
+    {{-- Panel dropdown (LIQUID GLASS) --}}
+    <div x-show="open"
+         x-transition
+         class="absolute z-50 {{ $alignmentClasses }} mt-2 {{ $widthClasses }}">
+        <div class="rounded-2xl
+            bg-white/10 backdrop-blur-xl
+            border border-white/25
+            shadow-[0_18px_45px_rgba(0,0,0,.35)]
+            p-3
+            text-sm text-white space-y-1">
+    {{ $content }}
+</div>
+
     </div>
 </div>

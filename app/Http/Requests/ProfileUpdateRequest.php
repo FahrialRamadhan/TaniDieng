@@ -30,4 +30,6 @@ class ProfileUpdateRequest extends FormRequest
             'address'=> ['nullable', 'string', 'max:1000'],
         ];
     }
+
+    
 }

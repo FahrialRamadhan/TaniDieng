@@ -42,4 +42,15 @@ class User extends Authenticatable implements MustVerifyEmail
             'password' => 'hashed',
         ];
     }
+
+    public function addresses()
+{
+    return $this->hasMany(Address::class);
+}
+
+public function primaryAddress()
+{
+    return $this->hasOne(Address::class)->where('is_primary', true);
+}
+
 }

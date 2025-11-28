@@ -1,3 +1,4 @@
+
 <section>
     <header>
         <h2 class="text-lg font-semibold text-white">
@@ -77,16 +78,6 @@
                        hover:bg-white/20 hover:border-white">
                 {{ __('Save') }}
             </x-primary-button>
-
-            @if (session('status') === 'password-updated')
-                <p
-                    x-data="{ show: true }"
-                    x-show="show"
-                    x-transition
-                    x-init="setTimeout(() => show = false, 2000)"
-                    class="text-sm text-white/70"
-                >{{ __('Saved.') }}</p>
-            @endif
         </div>
     </form>
 </section>

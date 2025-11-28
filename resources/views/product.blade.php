@@ -106,20 +106,22 @@
         </div>
       </aside>
 
-      <!-- GRID PRODUK -->
-      <main class="lg:col-span-9">
-        <div class="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
-          <!-- KARTU PRODUK -->
-           @include('components.cardbarang')
-<!-- card 1 -->
-@include('components.cardbarang')
+  <!-- GRID PRODUK -->
+<main class="lg:col-span-9">
+  <div class="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
+      @forelse ($products as $product)
+          {{-- panggil component cardbarang dan kirim object produk --}}
+          <x-cardbarang :product="$product" />
+      @empty
+          <p class="text-sm text-white/80 col-span-full">
+              Belum ada produk yang ditampilkan.
+          </p>
+      @endforelse
+  </div>
+</main>
 
-<!-- card 2 -->
-@include('components.cardbarang')
-<!-- card 3 -->
- @include('components.cardbarang')
-        </div>
-      </main>
+
+
     </div>
   </div>
 </section>

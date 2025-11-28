@@ -17,8 +17,12 @@ class ProfileController extends Controller
      */
     public function edit(Request $request): View
     {
+        $user = $request->user();
+        $addresses = $user->addresses;
+    
         return view('profile.edit', [
             'user' => $request->user(),
+            'addresses' => $addresses,
         ]);
     }
 
@@ -43,6 +47,13 @@ class ProfileController extends Controller
 
             // masukkan path baru ke data yang akan di-fill
             $data['profile_photo'] = $photoPath;
+
+        $request->user()->update([
+        'password' => Hash::make($request->password),
+    ]);
+
+    return back()->with('status', 'password-updated')
+                ->with('profile_tab', 'password');
         }
 
         // isi field user dari data yang sudah divalidasi
@@ -83,4 +94,5 @@ class ProfileController extends Controller
 
         return Redirect::to('/');
     }
+    
 }
