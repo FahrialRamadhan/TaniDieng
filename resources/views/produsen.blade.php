@@ -7,7 +7,7 @@
   <link rel="stylesheet" href="css/style.css" />
   <link rel="icon" type="image/png" sizes="48x48" href="img/favicon.png" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-  @vite('resources/css/app.css')
+ @vite(['resources/css/app.css', 'resources/js/app.js'])
   <title>Daftar Produsen</title>
   <style>
     details[open] > div { animation: dropdown-open 0.25s ease-out; }
@@ -18,7 +18,7 @@
   </style>
 </head>
 <body>
-@include('layouts.navbar')
+@include('layouts.navbar-guest')
 <div>
     <img src="img/bennerprodusen.png" alt="Gambar Produk" class="w-full h-64 object-cover mt-16"/>
 </div>
