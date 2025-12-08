@@ -9,68 +9,95 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rules\Password;
+use Illuminate\Support\Facades\Validator;   // <--- TAMBAH INI
 
 class ProfileController extends Controller
 {
     /**
-     * Display the user's profile form.
+     * Tampilkan halaman profil.
      */
     public function edit(Request $request): View
     {
-        $user = $request->user();
+        $user      = $request->user();
         $addresses = $user->addresses;
-    
+
         return view('profile.edit', [
-            'user' => $request->user(),
+            'user'      => $user,
             'addresses' => $addresses,
         ]);
     }
 
     /**
-     * Update the user's profile information.
+     * Update data profil (nama, email, foto, dll) TANPA ubah password.
      */
     public function update(ProfileUpdateRequest $request): RedirectResponse
     {
-        $user  = $request->user();
-        $data  = $request->validated();
+        $user = $request->user();
+        $data = $request->validated();
 
         // === HANDLE FOTO PROFIL ===
         if ($request->hasFile('profile_photo')) {
-            // simpan foto baru ke storage/app/public/profile_photos
+            // Simpan foto baru ke storage/app/public/profile_photos
             $photoPath = $request->file('profile_photo')
-                                 ->store('profile_photos', 'public');
+                ->store('profile_photos', 'public');
 
-            // hapus foto lama kalau ada
+            // Hapus foto lama kalau ada
             if ($user->profile_photo) {
                 Storage::disk('public')->delete($user->profile_photo);
             }
 
-            // masukkan path baru ke data yang akan di-fill
+            // Masukkan path baru ke data yang akan di-fill
             $data['profile_photo'] = $photoPath;
-
-        $request->user()->update([
-        'password' => Hash::make($request->password),
-    ]);
-
-    return back()->with('status', 'password-updated')
-                ->with('profile_tab', 'password');
         }
 
-        // isi field user dari data yang sudah divalidasi
+        // Isi field user dari data yang sudah divalidasi
         $user->fill($data);
 
-        // jika email berubah, reset verifikasi
+        // Jika email berubah, reset verifikasi
         if ($user->isDirty('email')) {
             $user->email_verified_at = null;
         }
 
         $user->save();
 
-        return Redirect::route('profile.edit')->with('status', 'profile-updated');
+        // Notif khusus profil
+        return Redirect::route('profile.edit')
+            ->with('success', 'Profil berhasil diperbarui.')
+            ->with('profile_tab', 'biodata');   // tetap di tab Biodata
     }
 
     /**
-     * Delete the user's account.
+     * Update password (form "Ubah kata sandi").
+     */
+    public function updatePassword(Request $request): RedirectResponse
+    {
+        // Pakai Validator manual supaya saat gagal kita bisa set profile_tab
+        $validator = Validator::make($request->all(), [
+            'current_password' => ['required', 'current_password'],
+            'password'         => ['required', 'confirmed', Password::defaults()],
+        ]);
+
+        if ($validator->fails()) {
+            return back()
+                ->withErrors($validator)   // kirim error validasi
+                ->withInput()              // isian lama tetap terisi (kecuali password karena security)
+                ->with('profile_tab', 'password'); // *** tetap di tab Ubah kata sandi
+        }
+
+        // Kalau validasi lolos → update password
+        $request->user()->update([
+            'password' => Hash::make($request->password),
+        ]);
+
+        return back()
+            ->with('success', 'Password berhasil diubah.')
+            ->with('profile_tab', 'password');  // tetap di tab Ubah kata sandi
+    }
+
+    /**
+     * Hapus akun user.
      */
     public function destroy(Request $request): RedirectResponse
     {
@@ -82,7 +109,7 @@ class ProfileController extends Controller
 
         Auth::logout();
 
-        // hapus foto profil di storage juga (opsional tapi bagus)
+        // Hapus foto profil di storage juga
         if ($user->profile_photo) {
             Storage::disk('public')->delete($user->profile_photo);
         }
@@ -94,5 +121,4 @@ class ProfileController extends Controller
 
         return Redirect::to('/');
     }
-    
 }

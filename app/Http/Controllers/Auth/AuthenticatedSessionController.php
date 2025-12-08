@@ -26,18 +26,18 @@ class AuthenticatedSessionController extends Controller
     {
         $request->authenticate();
         $request->session()->regenerate();
+
         $user = $request->user();
 
-        // ASUMSI: di tabel users ada kolom "role"
-    // dengan nilai 'pelanggan' atau 'produsen'
-    if ($user->role === 'produsen') {
-        // Produsen -> dashboard produsen
-        return redirect()->intended(route('dashboard.produsen'));
+        // JIKA PRODUSEN → ARAHKAN KE DASHBOARD PRODUSEN
+        if (in_array($user->role, ['produsen', 'pelanggan_produsen'])) {
+            return redirect()->route('dashboard.produsen');
+        }
+
+        // USER BIASA → KE BERANDA
+        return redirect()->intended(route('home'));
     }
 
-    // default (pelanggan) -> dashboard pelanggan
-    return redirect()->intended(route('home'));
-    }
 
     /**
      * Destroy an authenticated session.

@@ -31,16 +31,16 @@ class RegisteredUserController extends Controller
     {
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
+            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:' . User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
             'role'          => ['required', 'in:pelanggan,produsen'],
             'profile_photo' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:2048'],
         ]);
-      $photoPath = null;
-    if ($request->hasFile('profile_photo')) {
-        $photoPath = $request->file('profile_photo')
-                             ->store('profile_photos', 'public');
-    }
+        $photoPath = null;
+        if ($request->hasFile('profile_photo')) {
+            $photoPath = $request->file('profile_photo')
+                ->store('profile_photos', 'public');
+        }
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
@@ -53,6 +53,12 @@ class RegisteredUserController extends Controller
 
         Auth::login($user);
 
-        return redirect(route('home', absolute: false));
+        // KALAU AKUN BARU INI PRODUSEN → LANGSUNG KE DASHBOARD PRODUSEN
+        if (in_array($user->role, ['produsen', 'pelanggan_produsen'])) {
+            return redirect()->route('dashboard.produsen');
+        }
+
+        // SELAIN ITU → BERANDA
+        return redirect()->route('home');
     }
 }

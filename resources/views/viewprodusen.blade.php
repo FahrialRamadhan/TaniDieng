@@ -1,122 +1,124 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-  <link rel="stylesheet" href="css/style.css" />
-  <link rel="icon" type="image/png" sizes="48x48" href="img/favicon.png" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
- @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
 
-  <title>View</title>
-  <style>
-    details[open] > div { animation: dropdown-open .25s ease-out; }
-    @keyframes dropdown-open { 0%{opacity:0;transform:translateY(-6px)} 100%{opacity:1;transform:translateY(0)} }
-    .search-wrap{width:0;opacity:0;pointer-events:none;transition:width .28s ease,opacity .2s ease}
-    .search-wrap.open{width:min(640px,55vw);opacity:1;pointer-events:auto}
-    @media (max-width:640px){ .search-wrap.open{width:60vw} }
-  </style>
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}" />
+    <link rel="icon" type="image/png" sizes="48x48" href="{{ asset('img/favicon.png') }}" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
+
+    <title>Detail Produsen - TaniDieng</title>
 </head>
-<body class="min-h-screen flex flex-col bg-[#0F5529] text-white">
 
-<!-- navbar -->
- @include('layouts.navbar-guest')
+<body class="bg-[#0F5529] text-white antialiased min-h-screen flex flex-col">
 
-  <!-- spacer agar konten tidak tertutup header fixed -->
-  <div class="h-14 lg:h-16"></div>
+    {{-- NAVBAR SAMA PERSIS DENGAN HALAMAN LAIN --}}
+    @include('layouts.navbar-guest')
 
-  <!-- MAIN -->
-  <main class="flex-1">
-    <!-- DETAIL PRODUSEN -->
-    <section class="text-white py-10">
-      <div class="mx-auto max-w-[1160px] px-4">
-        <!-- panel glassy -->
-        <div class="relative rounded-xl border border-white/30 bg-[#155C36]/40 backdrop-blur-[2px] shadow-[0_10px_40px_rgba(0,0,0,.35)]">
-          <!-- ring luar halus -->
-          <div class="pointer-events-none absolute inset-0 rounded-xl ring-1 ring-inset ring-white/10"></div>
+    {{-- MAIN CONTENT --}}
+    <main class="flex-1 pt-24 pb-16">
+        <div class="max-w-6xl mx-auto px-6">
 
-          <!-- tombol kembali -->
-          <div class="px-6 pt-5">
-            <a href="javascript:history.back()" class="inline-flex items-center gap-2 text-white/85 hover:text-white text-sm">
-              <svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M15 18l-6-6 6-6"/>
-              </svg>
-              Kembali
-            </a>
-          </div>
+            {{-- JUDUL --}}
+            <h1 class="text-3xl font-semibold mb-10">
+                Detail Produsen
+            </h1>
 
-          <!-- isi -->
-          <div class="px-6 pb-8">
-            <div class="mt-4 grid grid-cols-1 md:grid-cols-12 gap-8">
-              <!-- avatar/kartu kiri -->
-              <div class="md:col-span-4">
-                <div class="mx-auto w-full max-w-[360px] rounded-xl bg-white/5 ring-1 ring-white/10 p-2">
-                  <img src="img/avatar-producer.png" alt="Jono Kagano"
-                       class="h-64 w-full object-cover rounded-lg" />
-                </div>
-              </div>
+            {{-- CARD DETAIL PRODUSEN --}}
+            <div
+                class="rounded-2xl border border-white/20 bg-white/5 backdrop-blur-sm
+                          shadow-[0_18px_55px_rgba(0,0,0,0.45)]
+                          px-8 py-8 md:px-10 md:py-10
+                          max-w-4xl mx-auto grid md:grid-cols-3 gap-8">
 
-              <!-- informasi kanan -->
-              <div class="md:col-span-8">
-                <h1 class="text-[32px] leading-tight font-semibold">Jono Kagano</h1>
-
-                <div class="mt-5 grid grid-cols-1 md:grid-cols-2 gap-10 text-sm">
-                  <!-- kolom kiri -->
-                  <div class="space-y-4">
-                    <div>
-                      <div class="text-white/70 text-[12px]">Produsen</div>
-                      <div class="font-semibold">Jono Kagano</div>
+                {{-- Avatar / Icon --}}
+                <div class="flex md:block justify-center">
+                    <div
+                        class="w-28 h-28 rounded-2xl bg-[#14633A]
+                                flex items-center justify-center shadow-lg">
+                        <i class="fa-solid fa-user text-4xl text-orange-300"></i>
                     </div>
-
-                    <div>
-                      <div class="text-white/70 text-[12px]">Lokasi Produksi</div>
-                      <div class="font-semibold">-</div>
-                    </div>
-
-                    <div>
-                      <div class="text-white/70 text-[12px]">Kontak</div>
-                      <div class="font-semibold">
-                        <a href="mailto:jono.kagano@gmail.com" class="underline hover:text-white">Jono.Kagano@gmail.com</a>
-                      </div>
-                      <div class="font-semibold">
-                        <a href="tel:+628946234823784" class="underline hover:text-white">08946234823784</a>
-                      </div>
-                    </div>
-                  </div>
-
-                  <!-- kolom kanan -->
-                  <div class="space-y-4">
-                    <div>
-                      <div class="text-white/70 text-[12px]">Bahasa</div>
-                      <div class="font-semibold">Indonesia</div>
-                    </div>
-
-                    <div>
-                      <div class="text-white/70 text-[12px]">Sertifikat</div>
-                      <div class="font-semibold">-</div>
-                    </div>
-                  </div>
                 </div>
 
-                <!-- garis pemisah panjang tipis -->
-                <div class="mt-6 h-px bg-white/15 w-full md:w-[88%]"></div>
-              </div>
+                {{-- Info utama --}}
+                <div class="md:col-span-2 space-y-4">
+                    <div>
+                        <h2 class="text-2xl font-semibold">
+                            {{ $produsen->name }}
+                        </h2>
+                        <p class="text-sm text-white/80 mt-1">
+                            Bergabung sejak
+                            {{ $produsen->created_at?->format('d M Y') ?? '-' }}
+                        </p>
+                    </div>
+
+                    @php
+                        $telp = $produsen->phone ?? ($produsen->no_hp ?? null);
+                    @endphp
+
+                    <div class="space-y-1 text-sm">
+                        <p>
+                            <span class="font-semibold">Email:</span>
+                            <a href="mailto:{{ $produsen->email }}" class="underline hover:text-white">
+                                {{ $produsen->email }}
+                            </a>
+                        </p>
+                        <p>
+                            <span class="font-semibold">No. Telepon:</span>
+                            @if ($telp)
+                                <a href="tel:{{ $telp }}" class="underline hover:text-white">
+                                    {{ $telp }}
+                                </a>
+                            @else
+                                -
+                            @endif
+                        </p>
+                        <p>
+                            <span class="font-semibold">Alamat:</span>
+                            {{ $produsen->alamat ?? ($produsen->address ?? '-') }}
+                        </p>
+                    </div>
+
+                    <div class="pt-4 flex flex-wrap gap-3">
+                        <a href="mailto:{{ $produsen->email }}"
+                            class="inline-flex items-center justify-center rounded-full
+                                  border border-white/40 px-4 py-2 text-sm
+                                  hover:bg-white/10 transition">
+                            <i class="fa-solid fa-envelope mr-2 text-xs"></i>
+                            Kirim Email
+                        </a>
+
+                        @if ($telp)
+                            <a href="https://wa.me/{{ preg_replace('/[^0-9]/', '', $telp) }}" target="_blank"
+                                class="inline-flex items-center justify-center rounded-full
+                                      border border-white/40 px-4 py-2 text-sm
+                                      hover:bg-white/10 transition">
+                                <i class="fa-brands fa-whatsapp mr-2 text-xs"></i>
+                                Hubungi via WhatsApp
+                            </a>
+                        @endif
+                    </div>
+                </div>
             </div>
-          </div>
+
+            {{-- LINK KEMBALI --}}
+            <div class="max-w-4xl mx-auto mt-14">
+                <a href="{{ route('produsen') }}" class="text-sm underline hover:text-white/80">
+                    ← Kembali ke daftar produsen
+                </a>
+            </div>
+
         </div>
-      </div>
-    </section>
-  </main>
+    </main>
 
-  <!-- FOOTER -->
-  @include('layouts.footer')
+    {{-- FOOTER SAMA DENGAN HALAMAN LAIN --}}
+    @include('layouts.footer')
 
-  <!-- kecil: toggle search -->
-  <script>
-    const btn = document.getElementById('searchBtn');
-    const wrap = document.getElementById('searchWrap');
-    btn?.addEventListener('click', () => wrap.classList.toggle('open'));
-  </script>
 </body>
+
 </html>
