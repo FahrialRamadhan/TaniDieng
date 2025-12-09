@@ -43,6 +43,9 @@
             // Default tab
             $activeTab = 'biodata';
 
+            // Riwayat transaksi
+            $orders = isset($orders) ? $orders : $user->orders ?? collect();
+
             // 1) Dari session (redirect sukses: profil / password / alamat / dst.)
             if (session('profile_tab')) {
                 $activeTab = session('profile_tab');
@@ -93,6 +96,12 @@
                             <button @click="tab='alamat'" class="block w-full text-left pb-1 border-b border-white/20"
                                 :class="tab === 'alamat' ? 'text-orange-400 font-semibold' : 'text-white/80'">
                                 Daftar alamat
+                            </button>
+
+                            {{-- TAB RIWAYAT TRANSAKSI --}}
+                            <button @click="tab='orders'" class="block w-full text-left pb-1 border-b border-white/20"
+                                :class="tab === 'orders' ? 'text-orange-400 font-semibold' : 'text-white/80'">
+                                Riwayat transaksi
                             </button>
 
                             <button @click="tab='delete'" class="block w-full text-left pb-1 border-b border-white/20"
@@ -201,6 +210,92 @@
                             @endforelse
                         </div>
 
+                        {{-- RIWAYAT TRANSAKSI --}}
+                        <div x-show="tab === 'orders'" x-cloak>
+                            <div class="flex justify-between items-center mb-4">
+                                <h3 class="text-lg font-semibold">Riwayat transaksi</h3>
+                                {{-- bisa tambah filter / export di sini kalau perlu --}}
+                            </div>
+
+                            @if ($orders->isEmpty())
+                                <p class="text-sm text-white/70 mt-4">
+                                    Belum ada transaksi yang tercatat.
+                                </p>
+                            @else
+                                {{-- Header kolom --}}
+                                <div class="grid grid-cols-12 text-sm font-semibold mb-3 text-white/90">
+                                    <div class="col-span-4">Order ID</div>
+                                    <div class="col-span-3">Tanggal</div>
+                                    <div class="col-span-2">Metode</div>
+                                    <div class="col-span-1 text-right">Status</div>
+                                    <div class="col-span-2 text-right">Total</div>
+                                </div>
+
+                                <div class="divide-y divide-white/10">
+                                    @foreach ($orders as $order)
+                                        @php
+                                            // fallback aman kalau nama kolom beda-beda
+                                            $orderCode =
+                                                $order->order_code ?? ($order->midtrans_order_id ?? $order->id);
+
+                                            $status = $order->status ?? ($order->payment_status ?? 'pending');
+
+                                            $paymentMethod =
+                                                $order->payment_method ?? ($order->payment_type ?? 'online');
+
+                                            $total = $order->total ?? ($order->gross_amount ?? 0);
+                                        @endphp
+
+                                        <div class="grid grid-cols-12 py-3 text-sm items-center">
+                                            {{-- ORDER ID --}}
+                                            <div class="col-span-4">
+                                                <div class="font-semibold">
+                                                    {{ $orderCode }}
+                                                </div>
+                                            </div>
+
+                                            {{-- TANGGAL --}}
+                                            <div class="col-span-3 text-white/80">
+                                                {{ $order->created_at?->format('d M Y, H:i') }}
+                                            </div>
+
+                                            {{-- METODE --}}
+                                            <div class="col-span-2 text-white/80 uppercase">
+                                                {{ $paymentMethod }}
+                                            </div>
+
+                                            {{-- STATUS --}}
+                                            <div class="col-span-1 text-right">
+                                                @php
+                                                    $badgeColor =
+                                                        'bg-yellow-500/20 text-yellow-300 border-yellow-400/40';
+                                                    if (in_array($status, ['settlement', 'success', 'paid', 'lunas'])) {
+                                                        $badgeColor =
+                                                            'bg-emerald-500/20 text-emerald-300 border-emerald-400/40';
+                                                    } elseif (
+                                                        in_array($status, ['cancel', 'cancelled', 'failure', 'expired'])
+                                                    ) {
+                                                        $badgeColor = 'bg-red-500/20 text-red-300 border-red-400/40';
+                                                    } elseif (in_array($status, ['pending'])) {
+                                                        $badgeColor =
+                                                            'bg-yellow-500/20 text-yellow-300 border-yellow-400/40';
+                                                    }
+                                                @endphp
+                                                <span
+                                                    class="inline-flex px-2 py-1 rounded-full border text-[11px] {{ $badgeColor }}">
+                                                    {{ strtoupper($status) }}
+                                                </span>
+                                            </div>
+
+                                            {{-- TOTAL --}}
+                                            <div class="col-span-2 text-right font-semibold">
+                                                Rp {{ number_format($total, 0, ',', '.') }}
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                </div>
+                            @endif
+                        </div>
                         {{-- DELETE ACCOUNT --}}
                         <div x-show="tab === 'delete'" x-cloak>
                             <div class="text-white">

@@ -1,18 +1,23 @@
 <?php
 
-use App\Models\User;
-use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\AddressController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
-use App\Http\Controllers\ProdusenProductController;
 use App\Http\Controllers\ProdusenController;
+use App\Http\Controllers\ProdusenProductController;
 use App\Http\Controllers\ProductController;
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ProfileController;
 use App\Models\Product;
-// ==================== PUBLIC ====================
+use App\Models\User;
+use Illuminate\Support\Facades\Route;
 
-// BERANDA – PRODUK TERBARU
+/*
+|--------------------------------------------------------------------------
+| PUBLIC ROUTES
+|--------------------------------------------------------------------------
+*/
+
+// Beranda – Produk terbaru
 Route::get('/', function () {
     $latestProducts = Product::orderBy('created_at', 'desc')
         ->take(8)
@@ -24,16 +29,25 @@ Route::get('/', function () {
 Route::get('/tentang', fn() => view('tentang'))->name('tentang');
 Route::get('/bantuan', fn() => view('bantuan'))->name('bantuan');
 
-// HALAMAN LIST PRODUK
+// Halaman list produk
 Route::get('/product', function () {
     $products = Product::orderBy('created_at', 'desc')->get();
+
     return view('product', compact('products'));
 })->name('product');
 
+// Detail produk
 Route::get('/produk/{product}', [ProductController::class, 'show'])
     ->name('detail.produk');
 
-// ==================== PRODUSEN ====================
+
+/*
+|--------------------------------------------------------------------------
+| PRODUSEN (PUBLIK)
+|--------------------------------------------------------------------------
+*/
+
+// List produsen
 Route::get('/produsen', function () {
     $producers = User::whereIn('role', ['produsen', 'pelanggan_produsen'])
         ->orderBy('name')
@@ -42,53 +56,95 @@ Route::get('/produsen', function () {
     return view('produsen', compact('producers'));
 })->name('produsen');
 
+// Detail produsen (view statis lama)
 Route::get('/produsen/{id}', function ($id) {
     $produsen = User::findOrFail($id);
+
     return view('viewprodusen', compact('produsen'));
 })->name('produsen.detail');
 
+// Detail produsen (via controller)
 Route::get('/produsen/{user}', [ProdusenController::class, 'show'])
     ->name('produsen.show');
 
 
-// ==================== KERANJANG (WAJIB LOGIN) ====================
-// semua akses keranjang HARUS login, tapi tanpa middleware role
+/*
+|--------------------------------------------------------------------------
+| KERANJANG (AUTH WAJIB, TANPA ROLE)
+|--------------------------------------------------------------------------
+*/
 
 Route::middleware(['auth'])->group(function () {
-    Route::get('/keranjang', [CartController::class, 'index'])->name('cart.index');
-    Route::post('/keranjang/tambah/{product}', [CartController::class, 'add'])->name('cart.add');
-    Route::post('/keranjang/{id}/favorite', [CartController::class, 'toggleFavorite'])->name('cart.favorite');
-    Route::delete('/keranjang/{id}', [CartController::class, 'remove'])->name('cart.remove');
+    Route::get('/keranjang', [CartController::class, 'index'])
+        ->name('cart.index');
 
-    Route::post('/cart/ajax-update', [CartController::class, 'ajaxUpdate'])->name('cart.ajax-update');
-    Route::delete('/cart/clear', [CartController::class, 'clear'])->name('cart.clear');
+    Route::post('/keranjang/tambah/{product}', [CartController::class, 'add'])
+        ->name('cart.add');
 
-    // alias /cart (opsional)
-    Route::get('/cart', [CartController::class, 'index'])->name('cart.page');
+    Route::post('/keranjang/{id}/favorite', [CartController::class, 'toggleFavorite'])
+        ->name('cart.favorite');
+
+    Route::delete('/keranjang/{id}', [CartController::class, 'remove'])
+        ->name('cart.remove');
+
+    Route::post('/cart/ajax-update', [CartController::class, 'ajaxUpdate'])
+        ->name('cart.ajax-update');
+
+    Route::delete('/cart/clear', [CartController::class, 'clear'])
+        ->name('cart.clear');
+
+    // Alias /cart
+    Route::get('/cart', [CartController::class, 'index'])
+        ->name('cart.page');
 });
 
 
-// ==================== AUTHENTICATED (SEMUA USER LOGIN) ====================
+/*
+|--------------------------------------------------------------------------
+| AUTHENTICATED (SEMUA USER LOGIN & VERIFIED)
+|--------------------------------------------------------------------------
+*/
 
 Route::middleware(['auth', 'verified'])->group(function () {
 
-    // /home: tampilkan home lagi (bukan redirect, supaya tidak loop)
+    // /home versi user login (beda nama route agar tidak loop)
     Route::get('/home', function () {
         $latestProducts = Product::orderBy('created_at', 'desc')
             ->take(4)
             ->get();
 
         return view('home', compact('latestProducts'));
-    })->name('home.logged');  // nama beda dengan 'home' utama
+    })->name('home.logged');
 
-    // DASHBOARD PRODUSEN + CRUD PRODUK
-    // sementara TANPA middleware role, cek role-nya bisa di controller
+    /*
+    |----------------------------------------------------------------------
+    | DASHBOARD PRODUSEN + CRUD PRODUK
+    |   - index  : /dashboard-produsen
+    |   - create : /dashboard-produsen/produk/create
+    |   - store  : /dashboard-produsen/produk
+    |   - hapus  : /dashboard-produsen/produk/hapus (halaman khusus)
+    |   - edit   : /dashboard-produsen/produk/{product}/edit
+    |   - update : /dashboard-produsen/produk/{product}
+    |   - destroy: /dashboard-produsen/produk/{product}
+    |----------------------------------------------------------------------
+    */
+
     Route::get('/dashboard-produsen', [ProdusenProductController::class, 'index'])
         ->name('dashboard.produsen');
 
+    // Halaman form tambah (blade baru)
+    Route::get('/dashboard-produsen/produk/create', [ProdusenProductController::class, 'create'])
+        ->name('produsen.produk.create');
+
+    // Simpan produk baru
     Route::post('/dashboard-produsen/produk', [ProdusenProductController::class, 'store'])
         ->name('produsen.produk.store');
 
+    // Halaman khusus hapus (blade baru)
+    Route::get('/dashboard-produsen/produk/hapus', [ProdusenProductController::class, 'hapusIndex'])
+        ->name('produsen.produk.hapus');
+
+    // Edit / Update / Delete
     Route::get('/dashboard-produsen/produk/{product}/edit', [ProdusenProductController::class, 'edit'])
         ->name('produsen.produk.edit');
 
@@ -98,24 +154,58 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::delete('/dashboard-produsen/produk/{product}', [ProdusenProductController::class, 'destroy'])
         ->name('produsen.produk.destroy');
 
-    // PROFIL
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::get('/dashboard-produsen/pembayaran', [ProdusenProductController::class, 'statusPembayaran'])
+        ->name('produsen.pembayaran.index');
 
-    // ALAMAT
+    // Halaman checkout
+    Route::get('/checkout', [\App\Http\Controllers\CheckoutController::class, 'index'])
+        ->name('checkout.index');
+
+    // Proses checkout (submit)
+    Route::post('/checkout', [\App\Http\Controllers\CheckoutController::class, 'store'])
+        ->name('checkout.store');
+
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | PROFIL & ALAMAT
+    |--------------------------------------------------------------------------
+    */
+
+    // Profil
+    Route::get('/profile', [ProfileController::class, 'edit'])
+        ->name('profile.edit');
+
+    Route::patch('/profile', [ProfileController::class, 'update'])
+        ->name('profile.update');
+
+    Route::delete('/profile', [ProfileController::class, 'destroy'])
+        ->name('profile.destroy');
+
+    // Alamat
     Route::post('/profile/address/store', [AddressController::class, 'store'])
         ->name('profile.address.store');
+
     Route::post('/profile/address/{address}/set-primary', [AddressController::class, 'setPrimary'])
         ->name('profile.address.setPrimary');
+
     Route::put('/profile/address/{address}/update', [AddressController::class, 'update'])
         ->name('profile.address.update');
+
     Route::delete('/profile/address/{address}/delete', [AddressController::class, 'destroy'])
         ->name('profile.address.delete');
 
+    // Update password
     Route::patch('/profile/password', [ProfileController::class, 'updatePassword'])
         ->name('profile.password.update');
 });
 
-// ==================== AUTH ROUTES (LOGIN, REGISTER, DLL) ====================
+
+/*
+|--------------------------------------------------------------------------
+| AUTH ROUTES (LOGIN, REGISTER, DLL)
+|--------------------------------------------------------------------------
+*/
+
 require __DIR__ . '/auth.php';
