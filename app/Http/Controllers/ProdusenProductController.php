@@ -41,7 +41,7 @@ class ProdusenProductController extends Controller
     {
         $data = $request->validate([
             'nama'     => ['required', 'string', 'max:255'],
-            'harga'    => ['required', 'integer', 'min:0'],
+            'harga'    => ['required', 'numeric', 'min:0'],
             'produsen' => ['required', 'string', 'max:255'],
             'foto'     => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:2048'],
         ]);
