@@ -66,9 +66,3 @@ Di terminal 2:
 ```bash
 npm run dev
 ```
-
-
-> 📝 **Catatan:**  
-> Struktur ini mengikuti pola standar Laravel. Jika proyek menggunakan framework frontend tambahan (mis. Vue/React), maka sebagian logika tampilan juga akan dikelola melalui `resources/js/` dan dikompilasi oleh Vite.
-
----
